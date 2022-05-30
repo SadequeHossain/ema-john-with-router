@@ -25,7 +25,7 @@ const OrderReview = () => {
 
         setCart([]);
         clearTheCart();
-        navigate('/placeorder');
+        navigate('/shipping');
     }
 
     return (
