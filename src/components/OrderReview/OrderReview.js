@@ -8,9 +8,11 @@ import ReviewItem from '../ReviewItem/ReviewItem';
 
 const OrderReview = () => {
 
-    const [products, setProducts] = useProducts();
-    const [cart, setCart] = useCart(products);
+    // const [products, setProducts] = useProducts();
+    const [cart, setCart] = useCart();
     const navigate = useNavigate();
+
+    
 
 
     const handleRemove = key => {
@@ -23,10 +25,12 @@ const OrderReview = () => {
 
     const handlePlaceOrder = () => {
 
-        setCart([]);
-        clearTheCart();
+        // setCart([]);
+        // clearTheCart();
         navigate('/shipping');
     }
+
+    console.log('This is cart', cart);
 
     return (
         <div className="shop-container">
@@ -44,10 +48,8 @@ const OrderReview = () => {
             </div>
             <div className="cart-container">
                 <Cart cart={cart}>
-
-
                     <button onClick={handlePlaceOrder} className="btn-regular">Place Order</button>
-
+                    
                 </Cart>
             </div>
 

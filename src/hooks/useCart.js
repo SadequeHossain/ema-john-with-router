@@ -1,30 +1,48 @@
 import { useEffect, useState } from "react";
 import { getStoredCart } from "../utilities/fakedb";
 
-const useCart = products => {
+const useCart = () => {
     const [cart, setCart] = useState([]);
 
     useEffect(() => {
-        if (products.length) {
-            const savedCart = getStoredCart();
-            const storedCart = []
-            for (const key in savedCart) {
+        const savedCart = getStoredCart();
 
-                const addedProduct = products.find(product => product.key === key);
-                if (addedProduct) {
-                    const quantity = savedCart[key];
-                    addedProduct.quantity = quantity;
-                    storedCart.push(addedProduct);
+        const keys = Object.keys(savedCart);
+        console.log(savedCart)
+
+        fetch('http://localhost:5000/products/byKeys', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(keys)
+        })
+
+            .then(res => res.json())
+            .then(products => {
+                console.log(products)
+
+
+                if (products.length) {
+
+                    const storedCart = []
+                    for (const key in savedCart) {
+
+                        const addedProduct = products.find(product => product.key === key);
+                        if (addedProduct) {
+                            const quantity = savedCart[key];
+                            addedProduct.quantity = quantity;
+                            storedCart.push(addedProduct);
+                        }
+
+                    }
+                    setCart(storedCart)
                 }
-
-            }
-            setCart(storedCart)
-        }
+            })
 
 
 
 
-    }, [products])
+
+    }, [])
     return [cart, setCart];
 }
 
